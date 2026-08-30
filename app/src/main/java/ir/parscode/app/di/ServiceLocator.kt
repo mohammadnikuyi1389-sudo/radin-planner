@@ -30,7 +30,7 @@ object ServiceLocator {
         if (::db.isInitialized) return
         appContext = context.applicationContext
         db = Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, AppDatabase.DB_NAME)
-            .fallbackToDestructiveMigration(true)
+            .fallbackToDestructiveMigration()
             .build()
 
         taskRepository = TaskRepositoryImpl(db.taskDao())
@@ -54,8 +54,6 @@ object ServiceLocator {
     private fun seedIfEmpty(context: Context) {
         CoroutineScope(Dispatchers.IO).launch {
             if (db.weekDao().count() == 0) {
-                // (title, description, progress%) - status is always derived live from
-                // progress (see ProgressStatus) so it can never drift out of sync.
                 val weeks = listOf(
                     Triple("معرفی و برنامه‌ریزی", "آشنایی با ساختار برنامه و تعیین اهداف اولیه", 100),
                     Triple("شروع پایه‌سازی", "ایجاد پایه علمی و عادت‌های مطالعاتی", 75),
@@ -76,7 +74,6 @@ object ServiceLocator {
                     )
                 }
 
-                // Sample goals + tasks for week 3, matching the reference "برنامه ۱۲ هفته‌ای" screen.
                 val week3Id = weekIds[2]
                 data class SeedGoal(val title: String, val desc: String, val progress: Int, val doneTasks: Int, val pendingTasks: Int, val todoTasks: Int)
                 val goals = listOf(
