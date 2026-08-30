@@ -13,13 +13,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-/** Fixed reference day-window (used only for the timeline strip + planned-time budget display). */
 const val DAY_START_LABEL = "۰۶:۳۰"
 const val DAY_END_LABEL = "۲۲:۳۰"
-private const val DAILY_BUDGET_MINUTES = 600 // 10h, matches reference design
+private const val DAILY_BUDGET_MINUTES = 600
 
 data class DailyPlanUiState(
     val dateIso: String = DateUtils.todayIso(),
@@ -37,17 +37,15 @@ class DailyPlanViewModel(private val repository: TaskRepository) : ViewModel() {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val uiState: StateFlow<DailyPlanUiState> = _dateIso.flatMapLatest { dateIso ->
-        repository.observeTasksForDate(dateIso).let { tasksFlow ->
-            kotlinx.coroutines.flow.map(tasksFlow) { tasks ->
-                DailyPlanUiState(
-                    dateIso = dateIso,
-                    tasks = tasks.sortedBy { it.sortOrder },
-                    doneCount = tasks.count { it.isDone },
-                    totalCount = tasks.size,
-                    progressPercent = if (tasks.isEmpty()) 0 else tasks.count { it.isDone } * 100 / tasks.size,
-                    plannedMinutes = tasks.sumOf { it.durationMinutes ?: 0 },
-                )
-            }
+        repository.observeTasksForDate(dateIso).map { tasks ->
+            DailyPlanUiState(
+                dateIso = dateIso,
+                tasks = tasks.sortedBy { it.sortOrder },
+                doneCount = tasks.count { it.isDone },
+                totalCount = tasks.size,
+                progressPercent = if (tasks.isEmpty()) 0 else tasks.count { it.isDone } * 100 / tasks.size,
+                plannedMinutes = tasks.sumOf { it.durationMinutes ?: 0 },
+            )
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), DailyPlanUiState())
 
