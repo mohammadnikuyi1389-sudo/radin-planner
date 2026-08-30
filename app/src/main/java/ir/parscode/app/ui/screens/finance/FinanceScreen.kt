@@ -65,10 +65,10 @@ fun FinanceScreen(viewModel: FinanceViewModel = viewModel(factory = financeViewM
         item { Text("مالی", style = Typography.headlineMedium, color = PcGold) }
         item {
             GlowCard(modifier = Modifier.fillMaxWidth()) {
-                Text("موجودی کل: ${DateUtils.toPersianDigits(balance)} تومان", style = Typography.titleLarge, color = PcGold)
+                Text("موجودی کل: ${DateUtils.toPersianDigits(balance.toString())} تومان", style = Typography.titleLarge, color = PcGold)
                 Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
-                    Text("درآمد: ${DateUtils.toPersianDigits(s.income)}", color = PcSuccess)
-                    Text("هزینه: ${DateUtils.toPersianDigits(s.expense)}", color = PcDanger)
+                    Text("درآمد: ${DateUtils.toPersianDigits(s.income.toString())}", color = PcSuccess)
+                    Text("هزینه: ${DateUtils.toPersianDigits(s.expense.toString())}", color = PcDanger)
                 }
             }
         }
@@ -84,7 +84,7 @@ fun FinanceScreen(viewModel: FinanceViewModel = viewModel(factory = financeViewM
                             Text(DateUtils.formatJalaliLong(r.dateIso), style = Typography.bodySmall, color = PcTextSecondary)
                         }
                         Text(
-                            "${if (r.type == "INCOME") "+" else "-"}${DateUtils.toPersianDigits(r.amount)}",
+                            "${if (r.type == "INCOME") "+" else "-"}${DateUtils.toPersianDigits(r.amount.toString())}",
                             color = if (r.type == "INCOME") PcSuccess else PcDanger,
                         )
                     }
