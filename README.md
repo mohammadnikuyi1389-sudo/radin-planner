@@ -1,6 +1,8 @@
 # Radin Planner
 
-This repository is empty and ready for the full project upload.
+ریپو خالی و آماده آپلود کامل پروژه است.
 
-Upload the extracted contents of `radin-planner.zip` here:
+لینک آپلود:
 https://github.com/mohammadnikuyi1389-sudo/radin-planner/upload/main
+
+محتویات پوشه `github_ready` را Extract کنید و اینجا آپلود کنید.
