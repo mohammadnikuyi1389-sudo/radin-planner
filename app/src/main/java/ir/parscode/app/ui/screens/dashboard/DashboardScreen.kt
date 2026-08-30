@@ -1,11 +1,12 @@
 package ir.parscode.app.ui.screens.dashboard
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.RadioButtonUnchecked
 import androidx.compose.material3.Icon
@@ -13,13 +14,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ir.parscode.app.domain.model.Task
 import ir.parscode.app.ui.components.GlowCard
@@ -34,8 +37,8 @@ fun DashboardScreen(
     onNavigate: (String) -> Unit = {},
 ) {
     val state by viewModel.uiState.collectAsState()
-    var showAddDialog by androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf(false) }
-    var editingTask by androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf<Task?>(null) }
+    var showAddDialog by remember { mutableStateOf(false) }
+    var editingTask by remember { mutableStateOf<Task?>(null) }
 
     LazyColumn(
         modifier = Modifier.fillMaxSize().background(PcBackground),
@@ -129,7 +132,7 @@ private fun QuickAction(label: String, route: String, onNavigate: (String) -> Un
         modifier = modifier.clickable { onNavigate(route) },
         contentPadding = PaddingValues(vertical = 12.dp),
     ) {
-        Text(label, style = Typography.bodySmall, color = PcGold, modifier = Modifier.fillMaxWidth(), textAlign = androidx.compose.ui.text.style.TextAlign.Center)
+        Text(label, style = Typography.bodySmall, color = PcGold, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
     }
 }
 
