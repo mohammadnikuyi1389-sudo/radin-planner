@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Simplified "PARS CODE" column emblem: entablature, three pillars, base -->
+    <path
+        android:fillColor="#D4AF37"
+        android:pathData="
+            M30,32 h48 v7 h-48 z
+            M34,41 h6 v28 h-6 z
+            M51,41 h6 v28 h-6 z
+            M68,41 h6 v28 h-6 z
+            M28,69 h52 v7 h-52 z
+        " />
+</vector>
